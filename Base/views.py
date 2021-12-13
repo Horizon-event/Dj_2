@@ -13,6 +13,11 @@ from .forms import RoomForm
 #     {'id': 4, 'name': 'lets learn Django!'}]
 
 
+def loginPage(request):
+    context = {}
+    return render(request, 'base/login_register.html', context)
+
+
 def home(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     # фильтруются сообщения по темам, если нет конкретной темы, выводится все
