@@ -9,29 +9,35 @@
     }
 </style>
 
-<h1>Home Templates NEW</h1>
-
 <div class="home-container">
     <div>
         <h3>Browse Topics</h3>
         <hr>
-        {% for topic in topics %}
-            <div>
-                <a href="{% url 'home'%}?q={{topic.name}}">{{ topic.name }}</a>
-            </div>
-        {% endfor %}
-    </div>
-    <a href="{% url 'create-room' %}">Create Room</a>
-    <hr>
-    {% for room in rooms%}
         <div>
-            <a href="{% url 'update-room' room.id %}">Update Room</a>
-            <a href="{% url 'delete-room' room.id %}">Delete</a>
-            <span>@{{ room.host.username }}</span>
-            <h5>{{ room.id }} --> <a href="{% url 'room' room.id %}">{{room.name}}</a></h5>
-            <hr>
+            <a href="{% url 'home' %}">All</a>
         </div>
-    {% endfor%}
+        {% for topic in topics %}
+        <div>
+            <a href="{% url 'home' %}?q={{ topic.name }}">{{ topic.name }}</a>
+        </div>
+        {% endfor%}
+        <hr>
+    </div>
+    <div>
+        <a href="{% url 'create-room' %}">Create Room</a>
+        <hr>
+        <div>{% for room in rooms%}
+            <div>
+                <a href="{% url 'update-room' room.id %}">Update Room</a>
+                <a href="{% url 'delete-room' room.id %}">Delete</a>
+                <span>@{{ room.host.username }}</span>
+                <h5>{{ room.id }} --> <a href="{% url 'room' room.id %}">{{room.name}}</a></h5>
+                {% endfor%}
+                <hr>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 {% endblock content%}
