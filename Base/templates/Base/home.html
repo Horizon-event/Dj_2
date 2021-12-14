@@ -1,7 +1,7 @@
 {% extends 'main.html' %}
 
 {% block content %}
-
+<!--размеры окон 1/4 и 3/4-->
 <style>
     .home-container {
         display: grid;
@@ -16,23 +16,25 @@
         <div>
             <a href="{% url 'home' %}">All</a>
         </div>
-        {% for topic in topics %}
+        {% for topic in topics %} <!--отображение списка тем-->
         <div>
-            <a href="{% url 'home' %}?q={{ topic.name }}">{{ topic.name }}</a>
+            <a href="{% url 'home' %}?q={{ topic.name }}">{{ topic.name }}</a> <!--ссылки на темы-->
         </div>
         {% endfor%}
         <hr>
     </div>
     <div>
-        <h5>{{ room_count }} rooms available</h5>
+        <h5>{{ room_count }} rooms available</h5> <!--количество комнат-->
         <a href="{% url 'create-room' %}">Create Room</a>
         <hr>
         <div>{% for room in rooms%}
             <div>
+                {% if request.user == room.host %} <!--если владелец, кнопки отражаются-->
                 <a href="{% url 'update-room' room.id %}">Update Room</a>
                 <a href="{% url 'delete-room' room.id %}">Delete</a>
-                <span>@{{ room.host.username }}</span>
-                <h5>{{ room.id }} --> <a href="{% url 'room' room.id %}">{{room.name}}</a></h5>
+                {% endif %}
+                <span>@{{ room.host.username }}</span> <!--имя автора / хозяина-->
+                <h5>{{ room.id }} --> <a href="{% url 'room' room.id %}">{{room.name}}</a></h5> <!--номера комнат-->
                 {% endfor%}
                 <hr>
             </div>
