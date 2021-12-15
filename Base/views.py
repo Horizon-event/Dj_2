@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -18,9 +19,10 @@ from .forms import RoomForm
 #     {'id': 4, 'name': 'lets learn Django!'}]
 
 
-def loginPage(request):
+def loginPage(request):  # вход если зарегестрирован
+    page = 'login'
     if request.user.is_authenticated:
-        return redirect('home') # усли уже зарегестрирован, возвращение на главную страницу
+        return redirect('home')  # если уже зарегистрирован, возвращение на главную страницу
 
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -37,12 +39,19 @@ def loginPage(request):
         else:
             messages.error(request, 'Username OR password does not exist')
 
-    context = {}
+    context = {'page': page}
     return render(request, 'base/login_register.html', context)
 
-def logoutUser(request):
+
+def logoutUser(request):  # выход из регистрации
     logout(request)
     return redirect('home')
+
+
+def registerPage(request):  # регистрация
+    form = UserCreationForm() # использование шаблона формы
+    return render(request, 'base/login_register.html', {'form': form})
+
 
 def home(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
@@ -64,6 +73,7 @@ def room(request, pk):
     context = {'room': room}
     return render(request, 'Base/room.html', context)
 
+
 @login_required(login_url='login')
 def createRoom(request):
     form = RoomForm()
@@ -75,6 +85,7 @@ def createRoom(request):
 
     context = {'form': form}
     return render(request, 'base/room_form.html', context)
+
 
 @login_required(login_url='login')
 def updateRoom(request, pk):
@@ -89,6 +100,7 @@ def updateRoom(request, pk):
             return redirect('home')
     context = {'form': form}
     return render(request, 'base/room_form.html', context)
+
 
 @login_required(login_url='login')
 def deleteRoom(request, pk):

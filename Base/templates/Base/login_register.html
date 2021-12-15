@@ -2,6 +2,8 @@
 
 {% block content %}
 
+{% if page == 'login' %} <!--если пользователь существует то-->
+
 <div>
     <form method="POST" action="">
         {% csrf_token %}
@@ -10,10 +12,25 @@
         <input type="text" name="username" placeholder="Введите имя...">
         <label>Введите пароль</label>
         <input type="text" name="password" placeholder="Введите пароль...">
+        <input type="submit" value="Войти">
+
+    </form>
+    <p>Haven signed up yet?</p>
+    <a href="{% url 'register' %}"> Sign up</a>
+</div>
+
+{% else %} <!--если пользователь не существует то-->
+
+<div>
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{ form.as_p}} <!--подключение формы UserCreationForm-->
         <input type="submit" value="Зарегистрироваться">
 
     </form>
+    <p>Already signed up yet?</p>
+    <a href="{% url 'register' %}">login</a>
 
 </div>
-
+{% endif %}
 {% endblock content %}
