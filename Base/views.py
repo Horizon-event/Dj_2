@@ -50,6 +50,17 @@ def logoutUser(request):  # выход из регистрации
 
 def registerPage(request):  # регистрация
     form = UserCreationForm() # использование шаблона формы
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST) # бросаем данные пользователя в форму
+        if form.is_valid(): # проверка на правильность заполнения формы
+            user = form.save(commit=False) # commit=False запрет на внесение изменений
+            user.username = user.username
+            user.save()
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, 'An error occurred during registration') # Во время регистрации произошла ошибка
+
     return render(request, 'base/login_register.html', {'form': form})
 
 
