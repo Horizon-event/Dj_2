@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.contrib.auth.models import User
-from .models import Room, Topic
+from .models import Room, Topic, Message
 from .forms import RoomForm
 
 
@@ -49,17 +49,17 @@ def logoutUser(request):  # выход из регистрации
 
 
 def registerPage(request):  # регистрация
-    form = UserCreationForm() # использование шаблона формы
+    form = UserCreationForm()  # использование шаблона формы
     if request.method == 'POST':
-        form = UserCreationForm(request.POST) # бросаем данные пользователя в форму
-        if form.is_valid(): # проверка на правильность заполнения формы
-            user = form.save(commit=False) # commit=False запрет на внесение изменений
+        form = UserCreationForm(request.POST)  # бросаем данные пользователя в форму
+        if form.is_valid():  # проверка на правильность заполнения формы
+            user = form.save(commit=False)  # commit=False запрет на внесение изменений
             user.username = user.username
             user.save()
             login(request, user)
             return redirect('home')
         else:
-            messages.error(request, 'An error occurred during registration') # Во время регистрации произошла ошибка
+            messages.error(request, 'An error occurred during registration')  # Во время регистрации произошла ошибка
 
     return render(request, 'base/login_register.html', {'form': form})
 
@@ -81,7 +81,15 @@ def home(request):
 
 def room(request, pk):
     room = Room.objects.get(id=pk)
-    context = {'room': room}
+    room_messages = room.message_set.all().order_by('-created')  # сортировка по убыванию
+    if request.method == 'POST':
+        messages = Message.objects.create(
+            users=request.user,
+            room=room,
+            body=request.POST.get('body')
+        )
+        return redirect('room', pk=room.id)
+    context = {'room': room, 'room_messages': room_messages}
     return render(request, 'Base/room.html', context)
 
 
