@@ -1,28 +1,43 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<h1>Room Templates </h1>
-<h1>{{ room.name }}</h1>
-<hr>
-<p>{{ room.description }}</p><br>
 
-<div class="comment-wrapper">
-    <h3>Conversation</h3> <!--разговор-->
-    <hr>
-    {% for message in room_messages %}
-        <div>
-            <small>@{{message.users}} {{message.created}} ago</small>
-            <p>{{ message.body }}</p>
+<style>
+    .room-container{
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+    }
+</style>
+<div class="room-container">
+    <div>
+        <h1>Room Templates </h1> <!--заголовок-->
+        <h1>{{ room.name }}</h1> <!--имя комнаты-->
+        <hr>
+        <p>{{ room.description }}</p><br> <!--сообщение-->
+
+        <div class="comment-wrapper">
+            <h3>Conversation</h3> <!--разговор-->
+            <hr>
+            {% for message in room_messages %} <!--если есть сообщение в этой комнате-->
+                <div>
+                    <small>@{{message.users}} {{message.created|timesince}} ago</small> <!--выводится автор и время из модели БД-->
+                    <p>{{ message.body }}</p> <!--выводится сообщение из модели БД-->
+                </div>
+            {% endfor %}
         </div>
-    {% endfor %}
-</div>
 
-{% if request.user.is_authenticated %}
-<div class="comment-form">
-    <form method="POST" action="">
-        {% csrf_token %}
-        <input type="text" name="body" placeholder="comment">
-    </form>
+        {% if request.user.is_authenticated %} <!--только для зарегистрированного пользователя-->
+        <div class="comment-form">
+            <form method="POST" action="">
+                {% csrf_token %}
+                <input type="text" name="body" placeholder="comment">
+            </form>
+        </div>
+    </div>
+    <div>
+        <h3>Participants</h3><!--участники-->
+        <hr>
+    </div>
 </div>
 {% endif %}
 {% endblock content%}

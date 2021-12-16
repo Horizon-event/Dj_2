@@ -9,9 +9,10 @@
 </form>
 
 {% if request.user.is_authenticated %}
+<p>Hello {{ request.user }}</p>
 <a href="{% url 'logout' %}">Logout</a> <!--если пользователь залогинен, выводится выйти-->
-<p>{{ request.user }}</p>
+
 {% else %}
-<a href="{% url 'login' %}">Login</a> <!--если не залогинен выводится-->
+<a href="{% url 'login' %}">Login</a> <!--если не залогинен выводится войти-->
 {% endif %}
 <hr>
