@@ -16,7 +16,7 @@
         <p>{{ room.description }}</p><br> <!--сообщение-->
 
         <div class="comment-wrapper">
-            <h3>Conversation</h3> <!--разговор-->
+            <h3>Обсуждение</h3> <!--разговор-->
             <hr>
             {% for message in room_messages %} <!--если есть сообщение в этой комнате-->
                 <div>
@@ -33,7 +33,7 @@
         <div class="comment-form">
             <form method="POST" action="">
                 {% csrf_token %}
-                <input type="text" name="body" placeholder="comment">
+                <input type="text" name="body" placeholder="Comment...">
             </form>
         </div>
     </div>
