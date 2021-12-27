@@ -48,7 +48,7 @@
             <div>
                 <small>@{{ message.users }} {{ message.created|timesince }}</small>
                 <small> replied to '{{ message.room}}'</small>
-                <p>{{ message }}</p>
+                <p>{{ message.body }}</p>
                 {% if request.user == message.users %}
                     <a href="{% url 'delete-message' message.id %}">Delete</a> <!--удаление сообщения в комнате-->
                 {% endif %}
