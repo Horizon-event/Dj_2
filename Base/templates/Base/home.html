@@ -5,7 +5,7 @@
 <style>
     .home-container {
         display: grid;
-        grid-template-columns: 1fr 3fr;
+        grid-template-columns: 1fr 3fr 1fr;
     }
 </style>
 
@@ -24,7 +24,7 @@
         <hr>
     </div>
     <div>
-        <h5>{{ room_count }} rooms available</h5> <!--количество комнат-->
+        <h3> Rooms Available: {{ room_count }} </h3> <!--количество комнат-->
         <a href="{% url 'create-room' %}">Create Room</a>
         <hr>
         <div>{% for room in rooms%}
@@ -35,12 +35,26 @@
                 {% endif %}
                 <span>@{{ room.host.username }}</span> <!--имя автора / хозяина-->
                 <h5>{{ room.id }} --> <a href="{% url 'room' room.id %}">{{room.name}}</a></h5> <!--номера комнат-->
-                {% endfor%}
+
                 <hr>
             </div>
+            {% endfor%}
         </div>
     </div>
-
+    <div>
+        <h3>Recent Activity</h3>
+        <hr>
+        {% for message in room_messages %}
+            <div>
+                <small>@{{ message.users }} {{ message.created|timesince }}</small>
+                <small> replied to '{{ message.room}}'</small>
+                <p>{{ message }}</p>
+                {% if request.user == message.users %}
+                    <a href="{% url 'delete-message' message.id %}">Delete</a> <!--удаление сообщения в комнате-->
+                {% endif %}
+                <hr>
+            </div>
+        {% endfor %}
+    </div>
 </div>
-
 {% endblock content%}
