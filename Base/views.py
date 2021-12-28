@@ -108,6 +108,12 @@ def createRoom(request):
     context = {'form': form}
     return render(request, 'base/room_form.html', context)
 
+def userProfile(request, pk):
+    user = User.objects.get(id=pk)
+    context = {'user': user}
+    return render(request, 'base/profile.html', context)
+
+
 
 @login_required(login_url='login') # декоратор не дает обновить комнату без регистрации
 def updateRoom(request, pk):
