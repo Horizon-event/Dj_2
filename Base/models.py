@@ -38,7 +38,7 @@ class Message(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['-update', '-created'] # класс, позволяющий сортировать по дате создания/обновления
+        ordering = ['-update', '-created'] # META - суперкласс, в данном случакпозволяющий сортировать по дате создания/обновления
 
     def __str__(self):
-        return self.body[0:50]
+        return self.body[0:50] # сообщение будет содержать не более 50 символов на боковой панели

@@ -11,50 +11,13 @@
 
 <div class="home-container">
     <div>
-        <h3>Browse Topics</h3>
-        <hr>
-        <div>
-            <a href="{% url 'home' %}">All</a>
-        </div>
-        {% for topic in topics %} <!--отображение списка тем-->
-        <div>
-            <a href="{% url 'home' %}?q={{ topic.name }}">{{ topic.name }}</a> <!--ссылки на темы-->
-        </div>
-        {% endfor%}
-        <hr>
+        {% include 'base/topic_component.html' %} <!--добавляется значение страницы topic_component.html по адресу 'base/topic_component.html'-->
     </div>
     <div>
-        <h3> Rooms Available: {{ room_count }} </h3> <!--количество комнат-->
-        <a href="{% url 'create-room' %}">Create Room</a>
-        <hr>
-        <div>{% for room in rooms%}
-            <div>
-                {% if request.user == room.host %} <!--если владелец, кнопки отражаются-->
-                <a href="{% url 'update-room' room.id %}">Update Room</a>
-                <a href="{% url 'delete-room' room.id %}">Delete</a>
-                {% endif %}
-                <span>@{{ room.host.username }}</span> <!--имя автора / хозяина-->
-                <h5>{{ room.id }} --> <a href="{% url 'room' room.id %}">{{room.name}}</a></h5> <!--номера комнат-->
-
-                <hr>
-            </div>
-            {% endfor%}
-        </div>
+       {% include 'base/feed_component.html' %}
     </div>
     <div>
-        <h3>Recent Activity</h3>
-        <hr>
-        {% for message in room_messages %}
-            <div>
-                <small>@{{ message.users }} {{ message.created|timesince }}</small>
-                <small> replied to '{{ message.room}}'</small>
-                <p>{{ message.body }}</p>
-                {% if request.user == message.users %}
-                    <a href="{% url 'delete-message' message.id %}">Delete</a> <!--удаление сообщения в комнате-->
-                {% endif %}
-                <hr>
-            </div>
-        {% endfor %}
+       {% include 'base/activity_component.html' %}
     </div>
 </div>
 {% endblock content%}

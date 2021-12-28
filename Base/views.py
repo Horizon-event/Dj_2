@@ -96,7 +96,7 @@ def room(request, pk):
     return render(request, 'Base/room.html', context)
 
 
-@login_required(login_url='login')
+@login_required(login_url='login') # декоратор не дает создать комнату без регистрации
 def createRoom(request):
     form = RoomForm()
     if request.method == 'POST':
@@ -109,7 +109,7 @@ def createRoom(request):
     return render(request, 'base/room_form.html', context)
 
 
-@login_required(login_url='login')
+@login_required(login_url='login') # декоратор не дает обновить комнату без регистрации
 def updateRoom(request, pk):
     room = Room.objects.get(id=pk)
     form = RoomForm(instance=room)
