@@ -1,9 +1,11 @@
- <h3>Recent Activity</h3>
+<!--здесь будут выводиться отдельные сообщения в главной комнате-->
+
+<h3>Recent Activity</h3>
         <hr>
         {% for message in room_messages %}
             <div>
                 <small>@{{ message.users }} {{ message.created|timesince }}</small>
-                <small> replied to '{{ message.room}}'</small>
+                <small> replied to '{{ message.room }}'</small>
                 <p>{{ message }}</p>
                 {% if request.user == message.users %}
                     <a href="{% url 'delete-message' message.id %}">Delete</a> <!--удаление сообщения в комнате-->

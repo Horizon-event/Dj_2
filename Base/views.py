@@ -74,6 +74,7 @@ def home(request):
     )
     topics = Topic.objects.all()
     room_count = rooms.count()
+    # фильтруются сообщения по темам комнаты.
     room_messages = Message.objects.filter(Q(room__topic__name__icontains=q))
 
     context = {'rooms': rooms, 'topics': topics, 'room_count': room_count, 'room_messages': room_messages}
@@ -110,7 +111,12 @@ def createRoom(request):
 
 def userProfile(request, pk):
     user = User.objects.get(id=pk)
-    context = {'user': user}
+    rooms = user.room_set.all() # вcе комнаты (темы, посты), созданные пользователем
+    room_messages = user.message_set.all() # вcе комментарии, созданные пользователем
+    # была проблема с отображением комментариев из за окончания s, т.к. в activity_component.html не room_message а
+    # room_messages
+    topics = Topic.objects.all() # список всех тем обсуждения
+    context = {'user': user, 'rooms': rooms, 'room_messages': room_messages, 'topics': topics}
     return render(request, 'base/profile.html', context)
 
 
