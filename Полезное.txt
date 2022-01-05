@@ -3,3 +3,35 @@ python manage.py makemigrations
 python manage.py migrate
 
 python manage.py runserver
+
+сайт документации pip
+pypi.org
+
+установка Django внутрь проекта
+pip install django
+
+создание проекта
+django-admin startproject Mysyte_1
+
+запуск проекта
+python manage.py runserver
+
+выход из локального сервера
+ctrl+c
+
+создание нового приложения внутри проекта, где main - название
+python manage.py startapp main
+
+создание текстуры и прочее с сайта https://getbootstrap.com
+https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css
+
+Проведение миграции
+создание файла миграции --> python manage.py makemigrations
+проведение миграции --> python manage.py migrate
+
+Создание администратора
+python manage.py createsuperuser
+
+создание нового приложения
+python manage.py startapp news
+Admin77

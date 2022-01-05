@@ -1,10 +1,12 @@
 <!DOCTYPE html>
+{% load static %} <!--загружаем папку со стилями-->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Title</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet", type="text/css" media="screen" href="{% static 'styles/main.css' %}"> <!--подключаем стили-->
 </head>
 <body>
   {% include 'navbar.html' %}
@@ -15,6 +17,8 @@
       {% endfor %}
   </ul>
   {% endif %}
+
+<!--  <img src="{% static 'images/water_on.jpg' %}" alt=""> # так можно вставить картинку по лайту-->
   {% block content %}
 
   {% endblock %}

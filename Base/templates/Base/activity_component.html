@@ -4,7 +4,8 @@
         <hr>
         {% for message in room_messages %}
             <div>
-                <small>@{{ message.users }} {{ message.created|timesince }}</small>
+                <!--создана ссылка для перехода в личный кабинет по автору поста-->
+                <small> <a href="{% url 'user-profile' message.users.id %}">@{{ message.users }}</a> {{ message.created|timesince }}</small>
                 <small> replied to '{{ message.room }}'</small>
                 <p>{{ message }}</p>
                 {% if request.user == message.users %}
