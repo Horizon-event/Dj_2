@@ -102,8 +102,8 @@ def createRoom(request):
     form = RoomForm()
     if request.method == 'POST':
         form = RoomForm(request.POST)
-        if form.is_valid():
-            form.save()
+        if form.is_valid(): # проверка правильности заполнения данных
+            room = form.save(commit=False)
             return redirect('home')
 
     context = {'form': form}
